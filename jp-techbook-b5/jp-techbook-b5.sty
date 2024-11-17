@@ -1,0 +1,76 @@
+\ProvidesPackage{jp-techbook-b5}
+% 必要なパッケージを読み込み
+\RequirePackage{titlesec}   % 見出しのカスタマイズ
+\RequirePackage{caption}    % 図表キャプションのカスタマイズ
+\RequirePackage{geometry}   % ページレイアウトの調整
+% \RequirePackage{graphicx}   % 画像挿入
+\RequirePackage{xcolor}     % 色の設定
+% \RequirePackage{booktabs}   % 表のデザインを強化
+
+% ページレイアウトの設定
+\geometry{b5paper, margin=25mm}
+
+% chapter
+% makechapterheadを上書きして表示を変える
+\def\@makechapterhead#1{%
+  \begin{tcolorbox}[%
+    enhanced,%
+    colback=white,colbacktitle=white,colframe=black,coltitle=black,%
+    boxrule=1.5pt,sharp corners,%
+    borderline={1.5pt}{3pt}{black},%
+    ]%
+    \centering 第 {\Huge\thechapter} 章\\
+    \LARGE #1%
+  \end{tcolorbox}%
+  \nobreak
+}
+
+% section
+\titleformat{\section}[block]{}{}{0pt}
+{
+  \definecolor{teal}{gray}{0.30}
+  \begin{picture}(0,0)
+    \put(-10,-5){
+      \begin{tikzpicture}
+        \fill[teal] (0pt,0pt) rectangle (5pt,19pt);
+      \end{tikzpicture}
+    }
+    \put(-10,-5){
+      \color{teal}
+      \line(1,0){\hsize}
+    }
+  \end{picture}
+  \hspace{0pt}
+  \sf \Large \thesection
+  \hspace{0pt}
+}
+
+% 図表見出し
+\renewcommand{\tablename}{\textcolor{gray}{▼} 表}
+\renewcommand{\figurename}{\textcolor{gray}{▲} 図}
+
+% 図表キャプションのカスタマイズ
+\captionsetup{
+  font=small,                  % フォントサイズを小さめに
+  labelfont=bf,                % ラベル（図や表番号）を太字に
+  labelsep=colon,              % ラベルとキャプションの間にコロンを使用
+  justification=raggedright,   % 左寄せ（両端揃えしない）
+  singlelinecheck=false        % 1行のキャプションでも設定を適用
+}
+
+% 表のデザインを整える
+\renewcommand{\arraystretch}{1.2} % 表の行間を広げる
+
+\newenvironment{custombox}[1][タイトル]
+{
+  \begin{tcolorbox}[colframe=blue!75!black, colback=blue!5, title=#1]
+}
+{
+  \end{tcolorbox}
+}
+
+% カスタムコマンド（例: 注意書きや強調）
+\newcommand{\important}[1]{\textbf{\textcolor{red}{#1}}}
+\newcommand{\tip}[1]{\textbf{\textcolor{blue}{#1}}}
+
+% ユーザーがさらに設定を上書きできるように空間を残す
