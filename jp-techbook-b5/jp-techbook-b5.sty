@@ -6,6 +6,10 @@
 % \RequirePackage{graphicx}   % 画像挿入
 \RequirePackage{xcolor}     % 色の設定
 % \RequirePackage{booktabs}   % 表のデザインを強化
+\RequirePackage{listings}
+\RequirePackage{tikz}
+\RequirePackage[minted,many]{tcolorbox}
+\RequirePackage{alltt}
 
 % ページレイアウトの設定
 \geometry{b5paper, margin=25mm}
@@ -45,16 +49,70 @@
   \hspace{0pt}
 }
 
+% ソースコード.
+\lstdefinestyle{defaultCodeStyle}{
+  belowcaptionskip=1\baselineskip,
+  showstringspaces=false,                               % スペース記号を非表示にする
+  breaklines=true,
+  frame=none,
+  numbers=none, 
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  xleftmargin=.1\textwidth, xrightmargin=.1\textwidth,
+}
+
+% ファイル名を引数としてソースコードを渡すマクロ
+% \codefile{lst:listing-cpp}{c}{test.cpp}
+\newcommand{\codefile}[3]{%
+\begin{center}
+  \lstinputlisting[
+    label={#1},
+    language=#2,
+    style=defaultCodeStyle,
+    ]{#3}
+\end{center}
+}
+
+% コラム
+%\begin{note}{これはコラム}
+%  コラムをこのようにしました。
+%\end{note}
+%
+\newtcolorbox{note}[2][]%%%
+{enhanced,%%%tikzを用いた記法の処理
+left=22pt,right=22pt,%%%box内左右の余白
+fonttitle=\gtfamily\bfseries\large,%%%タイトルのフォント指定
+coltitle=white,%%%タイトルの文字の色
+colbacktitle=gray!70!black,%%%タイトルの背景の色
+attach boxed title to top left={},%%%タイトルを左寄せに、少し微調整
+boxed title style={skin=enhancedfirst jigsaw,arc=1mm,bottom=0mm,boxrule=0mm},%%%タイトルボックスの装飾
+boxrule=0.5pt,%%%枠線の太さ
+colframe=black,
+sharp corners=northwest,%%%左上の角の調整 
+breakable,%%%ページマタギOK
+title=\vspace{3mm}#2,%%%タイトルは直接入力
+arc=1mm,%弧
+fontupper=\gtfamily,%本文のフォントを太く（数式は除く）
+#1}%
+
+% コマンドなどの強調表示
+% \begin{alltt}
+% \begin{verbatim}
+% \end{verbatim}
+% \end{alltt}
+
 % 図表見出し
-\renewcommand{\tablename}{\textcolor{gray}{▼} 表}
-\renewcommand{\figurename}{\textcolor{gray}{▲} 図}
+% \renewcommand{\tablename}{\textcolor{gray}{▼} 表}
+% \renewcommand{\figurename}{\textcolor{gray}{▲} 図}
 
 % 図表キャプションのカスタマイズ
 \captionsetup{
   font=small,                  % フォントサイズを小さめに
   labelfont=bf,                % ラベル（図や表番号）を太字に
   labelsep=colon,              % ラベルとキャプションの間にコロンを使用
-  justification=raggedright,   % 左寄せ（両端揃えしない）
+  justification=centering,     % 中央寄せ
   singlelinecheck=false        % 1行のキャプションでも設定を適用
 }
 
